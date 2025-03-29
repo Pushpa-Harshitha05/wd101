@@ -1,5 +1,19 @@
 let email = document.getElementById('email');
 
+email.addEventListener('input', () => {
+  const emailElement = document.getElementById('email');
+  const email = emailElement.value;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (emailPattern.test(email)) {
+    emailElement.setCustomValidity(""); // Valid email
+    return true;
+  } else {
+    emailElement.setCustomValidity("Please enter a valid email address.");
+    return false;
+  }
+});
+
 const retrieve = () => {
   let entry = localStorage.getItem('user-form');
   if (entry) {
