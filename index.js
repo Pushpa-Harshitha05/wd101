@@ -38,46 +38,63 @@ const displayEntries = () => {
   });
 };
 
+const dobelement = document.getElementById('dob');
+
 document.getElementById('registrationForm').addEventListener('submit', function (event) {
   event.preventDefault();
 
-  window.location.reload();
+  if(!validateDOB()){
+    dobelement.reportValidity();
+  }
+  else{
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const dob = document.getElementById('dob').value;
+    const terms = document.getElementById('terms').checked;
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const dob = document.getElementById('dob').value;
-  const terms = document.getElementById('terms').checked;
-  const [day, month, year] = dob.split('/'); 
-  const birthDate = new Date(`${year}-${month}-${day}`);
+    const data = { name, email, password, dob, terms };
+    entries.push(data);
+    window.location.reload();
+
+    localStorage.setItem('user-form', JSON.stringify(entries));
+  }
+  
+  displayEntries();
+});
+
+function validateDOB() {
+
+  const dofb = document.getElementById('dob').value;
+  const [year, month, day] = dofb.split('-').map(Number);
+
+  console.log(year,month,day)
 
   const today = new Date();
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
+  let age = today.getFullYear() - year;
 
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--; // Adjust if birthday hasn't occurred this year
+  const monthDiff = today.getMonth() - month;
+
+  const dayDiff = today.getDate() - day;
+
+  // Adjust age if birthday hasn't occurred this year
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
   }
-
-  const dobelement = document.getElementById('dob');
 
   // Check if the age is between 18 and 55 years
   if (age < 18 || age > 55) {
-      dobelement.setCustomValidity('Age must be between 18 and 55 years old');
-      dobelement.reportValidity();
-      console.log('Age not within valid range');
-      return;
+    dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+    return false;
   } else {
-      dobelement.setCustomValidity('');
+    dobelement.setCustomValidity("");
+    return true;
   }
 
+}
 
-
-  const data = { name, email, password, dob, terms };
-  entries.push(data);
-
-  localStorage.setItem('user-form', JSON.stringify(entries));
-  displayEntries();
+dobelement.addEventListener('input', () => {
+  dobelement.setCustomValidity("");
 });
 
 displayEntries();
