@@ -1,14 +1,5 @@
 let email = document.getElementById('email');
 
-email.addEventListener('input', () => {
-  if (email.validity.typeMismatch) {
-    email.setCustomValidity("The email is not in the right format!!");
-    email.reportValidity();
-  } else {
-    email.setCustomValidity("");
-  }
-});
-
 const retrieve = () => {
   let entry = localStorage.getItem('user-form');
   if (entry) {
