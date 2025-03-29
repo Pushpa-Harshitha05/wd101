@@ -70,25 +70,58 @@ function validateDOB() {
 
   console.log(year,month,day)
 
-  const today = new Date();
-  let age = today.getFullYear() - year;
-
-  const monthDiff = today.getMonth() - month;
-
-  const dayDiff = today.getDate() - day;
-
-  // Adjust age if birthday hasn't occurred this year
-  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-      age--;
-  }
-
-  // Check if the age is between 18 and 55 years
-  if (age < 18 || age > 55) {
-    dobelement.setCustomValidity("Age must be between 18 and 55 years old");
-    return false;
-  } else {
+  if((year>1970) && (year<2007)){
     dobelement.setCustomValidity("");
     return true;
+  }
+
+  else if(year==1970){
+    if(month < 3){
+      dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+      return false;
+    }
+    else if(month == 3){
+      if(day > 29){
+        dobelement.setCustomValidity("");
+        return true;
+      }
+      else{
+        dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+        return false;
+      }
+    }
+    
+    else{
+      dobelement.setCustomValidity("");
+      return true;
+    }
+  }
+
+  else if(year==2007){
+    if(month > 3){
+      dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+      return false;
+    }
+    else if(month == 3){
+      if(day < 29){
+        dobelement.setCustomValidity("");
+        return true;
+      }
+      else{
+        dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+        return false;
+      }
+    }
+    
+    else{
+      dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+      return false;
+    }
+  }
+
+  else{
+    dobelement.setCustomValidity("Age must be between 18 and 55 years old");
+    return false;
   }
 
 }
