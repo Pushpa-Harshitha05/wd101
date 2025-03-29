@@ -10,6 +10,7 @@ email.addEventListener('input', () => {
     return true;
   } else {
     emailElement.setCustomValidity("Please enter a valid email address.");
+    emailElement.reportValidity();
     return false;
   }
 });
