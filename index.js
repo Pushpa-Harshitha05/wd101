@@ -26,48 +26,44 @@ const displayEntries = () => {
   const tbody = table.querySelector('tbody');
   tbody.innerHTML = '';
 
-  if (entries.length === 0) {
-    table.classList.add('hidden');
-    return;
-  }
-
   entries.forEach(entry => {
     const row = `<tr class="border-b">
                             <td class="p-2">${entry.name}</td>
                             <td class="p-2">${entry.email}</td>
                             <td class="p-2">${entry.password}</td>
                             <td class="p-2">${entry.dob}</td>
-                            <td class="p-2">${entry.terms ? 'Yes' : 'No'}</td>
+                            <td class="p-2">${entry.terms}</td>
                         </tr>`;
     tbody.innerHTML += row;
   });
-
-  table.classList.remove('hidden');
 };
 
 document.getElementById('registrationForm').addEventListener('submit', function (event) {
   event.preventDefault();
+
+  window.location.reload();
 
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const dob = document.getElementById('dob').value;
   const terms = document.getElementById('terms').checked;
-  
+  const [day, month, year] = dob.split('/'); 
+  const birthDate = new Date(`${year}-${month}-${day}`);
+
   const today = new Date();
-  const birthDate = new Date(dob);  // Parse the entered DOB into a date
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
-  
+
   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--; // Adjust age if the birthday hasn't occurred yet this year
+      age--; // Adjust if birthday hasn't occurred this year
   }
-  
+
   const dobelement = document.getElementById('dob');
-  
-  // Check if the age is between 8 and 55 years
-  if (age < 8 || age > 55) {
-      dobelement.setCustomValidity('Age must be between 8 and 55 years old');
+
+  // Check if the age is between 18 and 55 years
+  if (age < 18 || age > 55) {
+      dobelement.setCustomValidity('Age must be between 18 and 55 years old');
       dobelement.reportValidity();
       console.log('Age not within valid range');
       return;
