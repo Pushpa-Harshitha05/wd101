@@ -1,16 +1,19 @@
-let email = document.getElementById('email');
-email.addEventListener('input', () => validateEmail(email));
+let emailelement = document.getElementById('email');
+emailelement.addEventListener('input', () => validateEmail(emailelement));
 
 const dobelement = document.getElementById('dob');
 
 const submit = document.getElementById('submit');
 submit.addEventListener('click', () => {
-  validateEmail(validateDOB());
+  validateDOB();
 });
 
 
 document.getElementById('registrationForm').addEventListener('submit', function (event) {
   event.preventDefault();
+
+  validateEmail(emailelement);
+
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
