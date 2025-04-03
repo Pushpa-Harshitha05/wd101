@@ -3,18 +3,13 @@ emailelement.addEventListener('input', () => validateEmail(emailelement));
 
 const dobelement = document.getElementById('dob');
 
-const submit = document.getElementById('submit');
-submit.addEventListener('click', () => {
-  validateDOB();
-});
-
 // Retrieve stored entries from localStorage
-const retrieve = () => {
-  let entry = localStorage.getItem('user-form');
-  return entry ? JSON.parse(entry) : []; // Ensure it's an array if no data exists
+const retrieveEntries = () => {
+  let storedEntries = localStorage.getItem('user-form');
+  return storedEntries ? JSON.parse(storedEntries) : []; // Return array if exists, else empty array
 };
 
-let entries = retrieve();
+let entries = retrieveEntries(); // Initialize with stored entries
 
 // Function to display stored entries in the table
 const displayEntries = () => {
@@ -46,7 +41,7 @@ function validateEmail(element) {
   }
 }
 
-// Validate Date of Birth (18-55 years)
+// Validate Date of Birth (Must be exactly 18-55 years from today's date)
 function validateDOB() {
   const dofb = dobelement.value;
   if (!dofb) return; // Prevent errors if dob is empty
@@ -87,7 +82,8 @@ document.getElementById('registrationForm').addEventListener('submit', function 
   entries.push(data);
   
   localStorage.setItem('user-form', JSON.stringify(entries)); // Store updated entries
-  window.location.reload(); // Reload to refresh data display
+
+  displayEntries(); // Update table without reloading the page
 });
 
 // Reset custom validation message when user edits the DOB field
