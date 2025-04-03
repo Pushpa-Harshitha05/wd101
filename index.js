@@ -8,104 +8,92 @@ submit.addEventListener('click', () => {
   validateDOB();
 });
 
+// Retrieve stored entries from localStorage
+const retrieve = () => {
+  let entry = localStorage.getItem('user-form');
+  return entry ? JSON.parse(entry) : []; // Ensure it's an array if no data exists
+};
 
-document.getElementById('registrationForm').addEventListener('submit', function (event) {
-  event.preventDefault();
+let entries = retrieve();
 
-  validateEmail(emailelement);
+// Function to display stored entries in the table
+const displayEntries = () => {
+  const table = document.getElementById('entriesTable');
+  const tbody = table.querySelector('tbody');
+  tbody.innerHTML = ''; // Clear existing table rows
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const dob = document.getElementById('dob').value;
-    const terms = document.getElementById('terms').checked;
+  entries.forEach(entry => {
+    const row = document.createElement('tr');
+    row.classList.add("border-b");
+    row.innerHTML = `
+      <td class="p-2">${entry.name}</td>
+      <td class="p-2">${entry.email}</td>
+      <td class="p-2">${entry.password}</td>
+      <td class="p-2">${entry.dob}</td>
+      <td class="p-2">${entry.terms ? "Yes" : "No"}</td>
+    `;
+    tbody.appendChild(row);
+  });
+};
 
-    const data = { name, email, password, dob, terms };
-    entries.push(data);
-    window.location.reload();
-
-    localStorage.setItem('user-form', JSON.stringify(entries));
-  
-  displayEntries();
-});
-
-
-function validateEmail(element){
-
+// Email validation function
+function validateEmail(element) {
   if (element.validity.typeMismatch) {
-    element.setCustomValidity("The email is not in the right format!!!");
+    element.setCustomValidity("The email is not in the correct format!");
     element.reportValidity();
   } else {
     element.setCustomValidity("");
   }
 }
 
-const retrieve = () => {
-  let entry = localStorage.getItem('user-form');
-  if (entry) {
-    entry = JSON.parse(entry);
-  } else {
-    entry = [];
-  }
-  return entry;
-};
-
-let entries = retrieve();
-
-const displayEntries = () => {
-  const table = document.getElementById('entriesTable');
-  const tbody = table.querySelector('tbody');
-  tbody.innerHTML = '';
-
-  entries.forEach(entry => {
-    const row = `<tr class="border-b">
-                            <td class="p-2">${entry.name}</td>
-                            <td class="p-2">${entry.email}</td>
-                            <td class="p-2">${entry.password}</td>
-                            <td class="p-2">${entry.dob}</td>
-                            <td class="p-2">${entry.terms}</td>
-                        </tr>`;
-    tbody.innerHTML += row;
-  });
-};
-
+// Validate Date of Birth (18-55 years)
 function validateDOB() {
+  const dofb = dobelement.value;
+  if (!dofb) return; // Prevent errors if dob is empty
 
-  const dofb = document.getElementById('dob').value;
-  const [year, month, day] = dofb.split('-').map(Number);
+  const dobDate = new Date(dofb);
+  const today = new Date();
+  
+  const minAgeDate = new Date(today.getFullYear() - 55, today.getMonth(), today.getDate()); // 55 years ago (exact day)
+  const maxAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()); // 18 years ago (exact day)
 
-  console.log(year,month,day)
-
-  if((year>1970) && (year<2007)){
+  if (dobDate >= minAgeDate && dobDate <= maxAgeDate) {
     dobelement.setCustomValidity("");
+  } else {
+    dobelement.setCustomValidity("Age must be between 18 and 55 years old.");
   }
-
-  else if(year==1970){
-    if(month <= 3){
-      dobelement.setCustomValidity("Age must be between 18 and 55 years old");
-    }
-    else{
-      dobelement.setCustomValidity("");
-    }
-  }
-
-  else if(year==2007){
-    if(month > 3){
-      dobelement.setCustomValidity("Age must be between 18 and 55 years old");
-    }
-    else{
-      dobelement.setCustomValidity("");
-    }
-  }
-
-  else{
-    dobelement.setCustomValidity("Age must be between 18 and 55 years old")
-  }
-
+  dobelement.reportValidity();
 }
 
+// Prevent submission if validation fails
+document.getElementById('registrationForm').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  validateEmail(emailelement);
+  validateDOB();
+
+  // Prevent form submission if any field is invalid
+  if (emailelement.validationMessage || dobelement.validationMessage) {
+    return;
+  }
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const dob = document.getElementById('dob').value;
+  const terms = document.getElementById('terms').checked;
+
+  const data = { name, email, password, dob, terms };
+  entries.push(data);
+  
+  localStorage.setItem('user-form', JSON.stringify(entries)); // Store updated entries
+  window.location.reload(); // Reload to refresh data display
+});
+
+// Reset custom validation message when user edits the DOB field
 dobelement.addEventListener('input', () => {
   dobelement.setCustomValidity("");
 });
 
+// Display saved entries on page load
 displayEntries();
