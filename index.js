@@ -1,31 +1,21 @@
 let emailelement = document.getElementById('email');
-emailelement.addEventListener('input', () => validateEmail(emailelement));
 
 const dobelement = document.getElementById('dob');
-
-const submit = document.getElementById('submit');
-submit.addEventListener('click', () => {
-  validateDOB();
-});
 
 
 document.getElementById('registrationForm').addEventListener('submit', function (event) {
   event.preventDefault();
+
+  if (!registrationForm.checkValidity()) {
+    registrationForm.reportValidity(); // show error messages
+    return;
+  }
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const dob = document.getElementById('dob').value;
     const terms = document.getElementById('terms').checked;
-
-    if (!emailelement.checkValidity()) {
-      emailelement.reportValidity();
-      return;
-    }
-
-    if (!validateDOB()) {
-      return;
-    }
 
     const data = { name, email, password, dob, terms };
     entries.push(data);
@@ -37,15 +27,15 @@ document.getElementById('registrationForm').addEventListener('submit', function 
 });
 
 
-function validateEmail(element){
+// function validateEmail(element){
 
-  if (element.validity.typeMismatch) {
-    element.setCustomValidity("The email is not in the right format!!!");
-    element.reportValidity();
-  } else {
-    element.setCustomValidity("");
-  }
-}
+//   if (element.validity.typeMismatch) {
+//     element.setCustomValidity("The email is not in the right format!!!");
+//     element.reportValidity();
+//   } else {
+//     element.setCustomValidity("");
+//   }
+// }
 
 const retrieve = () => {
   let entry = localStorage.getItem('user-form');
@@ -76,26 +66,26 @@ const displayEntries = () => {
   });
 };
 
-function validateDOB() {
-  const dofb = dobelement.value;
+// function validateDOB() {
+//   const dofb = dobelement.value;
 
-  const dob = new Date(dofb);
+//   const dob = new Date(dofb);
 
-  const minDate = new Date('1970-04-05');
-  const maxDate = new Date('2007-04-05');
+//   const minDate = new Date('1970-04-05');
+//   const maxDate = new Date('2007-04-05');
 
-  if (dob >= minDate && dob <= maxDate) {
-    dobelement.setCustomValidity("");
-    return true;
-  } else {
-    dobelement.setCustomValidity("Age must be between 18 and 55 years old as of April 5, 2025");
-    dobelement.reportValidity();
-    return false;
-  }
-}
+//   if (dob >= minDate && dob <= maxDate) {
+//     dobelement.setCustomValidity("");
+//     return true;
+//   } else {
+//     dobelement.setCustomValidity("Age must be between 18 and 55 years old as of April 5, 2025");
+//     dobelement.reportValidity();
+//     return false;
+//   }
+// }
 
-dobelement.addEventListener('input', () => {
-  dobelement.setCustomValidity("");
-});
+// dobelement.addEventListener('input', () => {
+//   dobelement.setCustomValidity("");
+// });
 
 displayEntries();
