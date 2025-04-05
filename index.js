@@ -18,7 +18,7 @@ document.getElementById('registrationForm').addEventListener('submit', function 
     const dob = document.getElementById('dob').value;
     const terms = document.getElementById('terms').checked;
 
-    if (emailelement.checkValidity()) {
+    if (!emailelement.checkValidity()) {
       emailelement.reportValidity();
       return;
     }
