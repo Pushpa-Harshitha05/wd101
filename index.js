@@ -1,4 +1,12 @@
 let emailelement = document.getElementById('email');
+emailelement.addEventListener('input', () => {
+  if (emailelement.validity.typeMismatch) {
+      emailelement.setCustomValidity("The email is not in the right format!!!");
+      emailelement.reportValidity();
+  } else {
+      emailelement.setCustomValidity("");
+  }
+})
 
 const dobelement = document.getElementById('dob');
 
