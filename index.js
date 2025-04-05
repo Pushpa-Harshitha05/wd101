@@ -18,11 +18,20 @@ document.getElementById('registrationForm').addEventListener('submit', function 
     const dob = document.getElementById('dob').value;
     const terms = document.getElementById('terms').checked;
 
+    if (emailelement.validity.typeMismatch) {
+      emailelement.reportValidity();
+      return;
+    }
+
+    if (!validateDOB()) {
+      return;
+    }
+
     const data = { name, email, password, dob, terms };
     entries.push(data);
-    window.location.reload();
 
     localStorage.setItem('user-form', JSON.stringify(entries));
+    window.location.reload();
   
   displayEntries();
 });
@@ -77,11 +86,12 @@ function validateDOB() {
 
   if (dob >= minDate && dob <= maxDate) {
     dobelement.setCustomValidity("");
+    return true;
   } else {
     dobelement.setCustomValidity("Age must be between 18 and 55 years old as of April 5, 2025");
+    dobelement.reportValidity();
+    return false;
   }
-
-  dobInput.reportValidity();
 }
 
 dobelement.addEventListener('input', () => {
