@@ -31,9 +31,9 @@ document.getElementById('registrationForm').addEventListener('submit', function 
     entries.push(data);
 
     localStorage.setItem('user-form', JSON.stringify(entries));
-    window.location.reload();
   
   displayEntries();
+  document.getElementById('registrationForm').reset();
 });
 
 
