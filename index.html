@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    input#email:invalid:focus {
+      border: 1px solid red;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+  <form id="registrationForm" class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Register</h2>
+
+    <label for="name" class="block mb-2 font-medium">Name</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name"
+      class="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-4" required>
+
+    <label for="email" class="block mb-2 font-medium">Email</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email"
+      class="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-4" required>
+
+    <label for="password" class="block mb-2 font-medium">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password"
+      class="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-4" required>
+
+    <label for="dob" class="block mb-2 font-medium">Date of Birth</label>
+    <input type="date" id="dob" name="dob"
+      class="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-4" min="1970-04-06"
+      max="2007-04-06" required>
+
+    <div class="flex items-center mb-4">
+      <input type="checkbox" id="terms" name="terms"
+        class="w-4 h-4 text-green-500 focus:ring-green-400 border-gray-300 rounded" required>
+      <label for="terms" class="ml-2 text-gray-700">I accept the terms and conditions</label>
+    </div>
+
+    <button type="submit"
+      class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition duration-300"
+      id="submit">Submit</button>
+  </form>
+
+  <table id="entriesTable" class="mt-6 bg-white shadow-lg rounded-lg w-70% max-w-l">
+    <caption>Entries</caption>
+    <thead>
+      <tr class="bg-green-500 text-white">
+        <th class="p-2">Name</th>
+        <th class="p-2">Email</th>
+        <th class="p-2">Password</th>
+        <th class="p-2">dob</th>
+        <th class="p-2">accepted terms?</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
