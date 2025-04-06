@@ -1,7 +1,7 @@
 let emailelement = document.getElementById('email');
-emailelement.addEventListener('input', () => {
-  validateEmail();
-})
+// emailelement.addEventListener('input', () => {
+//   validateEmail();
+// })
 
 const dobelement = document.getElementById('dob');
 const registrationForm = document.getElementById('registrationForm');
@@ -10,27 +10,26 @@ const registrationForm = document.getElementById('registrationForm');
 registrationForm.addEventListener('submit', function (event) {
   event.preventDefault();
 
+  // Now check form validity including custom validations
   if (!registrationForm.checkValidity()) {
-    registrationForm.reportValidity(); // show error messages
+    registrationForm.reportValidity(); // Show browser errors
     return;
   }
 
-  validateEmail();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const dob = document.getElementById('dob').value;
+  const terms = document.getElementById('terms').checked;
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const dob = document.getElementById('dob').value;
-    const terms = document.getElementById('terms').checked;
+  const data = { name, email, password, dob, terms };
+  entries.push(data);
+  localStorage.setItem('user-form', JSON.stringify(entries));
 
-    const data = { name, email, password, dob, terms };
-    entries.push(data);
-
-    localStorage.setItem('user-form', JSON.stringify(entries));
-  
   displayEntries();
-  document.getElementById('registrationForm').reset();
+  registrationForm.reset();
 });
+
 
 
 function validateEmail() {
@@ -39,7 +38,6 @@ function validateEmail() {
   } else {
     emailelement.setCustomValidity("");
   }
-  emailelement.reportValidity();
 }
 
 
@@ -72,27 +70,5 @@ const displayEntries = () => {
     tbody.innerHTML += row;
   });
 };
-
-// function validateDOB() {
-//   const dofb = dobelement.value;
-
-//   const dob = new Date(dofb);
-
-//   const minDate = new Date('1970-04-05');
-//   const maxDate = new Date('2007-04-05');
-
-//   if (dob >= minDate && dob <= maxDate) {
-//     dobelement.setCustomValidity("");
-//     return true;
-//   } else {
-//     dobelement.setCustomValidity("Age must be between 18 and 55 years old as of April 5, 2025");
-//     dobelement.reportValidity();
-//     return false;
-//   }
-// }
-
-// dobelement.addEventListener('input', () => {
-//   dobelement.setCustomValidity("");
-// });
 
 displayEntries();
