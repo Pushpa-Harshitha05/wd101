@@ -1,7 +1,4 @@
 let emailelement = document.getElementById('email');
-// emailelement.addEventListener('input', () => {
-//   validateEmail();
-// })
 
 const dobelement = document.getElementById('dob');
 const registrationForm = document.getElementById('registrationForm');
@@ -10,7 +7,6 @@ const registrationForm = document.getElementById('registrationForm');
 registrationForm.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  // Now check form validity including custom validations
   if (!registrationForm.checkValidity()) {
     registrationForm.reportValidity(); // Show browser errors
     return;
@@ -29,17 +25,6 @@ registrationForm.addEventListener('submit', function (event) {
   displayEntries();
   registrationForm.reset();
 });
-
-
-
-function validateEmail() {
-  if (!emailelement.validity.valid) {
-    emailelement.setCustomValidity("The email is not in the right format!!!");
-  } else {
-    emailelement.setCustomValidity("");
-  }
-}
-
 
 
 const retrieve = () => {
