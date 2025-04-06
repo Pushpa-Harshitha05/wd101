@@ -6,11 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration Form</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    input#email:invalid:focus {
-      border: 1px solid red;
-    }
-  </style>
 </head>
 
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
@@ -22,7 +17,7 @@
       class="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-4" required>
 
     <label for="email" class="block mb-2 font-medium">Email</label>
-    <input type="email" id="email" name="email" placeholder="Enter your email"
+    <input type="email" id="email" name="email" placeholder="Enter your email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
       class="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-4" required>
 
     <label for="password" class="block mb-2 font-medium">Password</label>
