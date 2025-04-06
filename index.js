@@ -1,4 +1,9 @@
 let emailelement = document.getElementById('email');
+emailelement.addEventListener('input', () => {
+  if(!emailelement.checkValidity()){
+    emailelement.reportValidity();
+  }
+})
 
 const dobelement = document.getElementById('dob');
 const registrationForm = document.getElementById('registrationForm');
